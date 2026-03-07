@@ -69,7 +69,7 @@ const Home = ({ setActiveChat }) => {
       <div className="mb-6 z-10">
         <label className="block text-sm font-medium mb-2">Scan Radius: {radius} km</label>
         <input 
-          type="range" min="1" max="20" value={radius} 
+          type="range" min="1" max="5" value={radius} 
           onChange={(e) => setRadius(Number(e.target.value))}
           className="w-64 accent-purple-500"
         />
