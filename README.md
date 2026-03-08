@@ -1,16 +1,93 @@
-# React + Vite
+# 📍 Nearby Chat – Location Based Chat Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Project Description
+Nearby Chat is a location-based web application that allows users to chat with people within a **5 km radius**. The platform focuses on **temporary and anonymous communication** where all chat messages are **automatically deleted after 1 hour** to maintain privacy.
 
-Currently, two official plugins are available:
+The goal of this project is to help people interact with others nearby in real time without sharing personal information.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 📍 **Location Based User Detection**
+  - Finds users within a 5 km radius.
 
-## Expanding the ESLint configuration
+- 💬 **Real-time Chat**
+  - Users can send and receive messages instantly.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- ⏳ **Auto Delete Messages**
+  - All messages are automatically deleted after **1 hour**.
+
+- 👤 **Anonymous Chat**
+  - Users can chat without sharing personal details.
+
+- 🗺 **Interactive Map**
+  - Displays nearby users on a map interface.
+
+- 🔒 **Privacy Focus**
+  - No permanent storage of chat messages.
+
+---
+
+## 🧠 How It Works
+
+1. User opens the website.
+2. The browser requests **location permission**.
+3. The system calculates distance between users.
+4. Users within **5 km radius** are detected.
+5. After connecting, users can start chatting.
+6. Messages automatically **expire after 1 hour**.
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- React.js
+- Tailwind CSS
+- React Leaflet (Map)
+
+### Backend
+- Node.js
+- Express.js
+
+### Database
+- MongoDB
+
+### Other Tools
+- Socket.io (for real-time chat)
+- Geolocation API
+- Haversine Formula (distance calculation)
+
+---
+
+## 📐 Distance Calculation
+
+The application uses the **Haversine Formula** to calculate the distance between two geographic coordinates.
+
+Formula:
+
+distance = 2 × R × asin( √( sin²((lat2-lat1)/2) + cos(lat1) × cos(lat2) × sin²((lon2-lon1)/2) ) )
+
+Where:
+- R = 6371 km (Earth radius)
+
+---
+
+## 📂 Project Structure
+nearby-chat
+│
+├── frontend
+│ ├── components
+│ ├── pages
+│ ├── Map.jsx
+│ ├── Chat.jsx
+│ └── App.jsx
+│
+├── backend
+│ ├── models
+│ ├── routes
+│ ├── socket
+│ └── server.js
+│
+└── README.md
