@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaUser, FaLock, FaEye, FaEyeSlash, FaGithub, FaGoogle } from "react-icons/fa";
+import { ThemeContext } from "../components/ThemeContext"; // Adjust path if needed
 
 const Login = ({ onLogin }) => {
+  const { isDarkMode } = useContext(ThemeContext);
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -10,14 +12,13 @@ const Login = ({ onLogin }) => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (error) setError(""); // Clear error when user types
+    if (error) setError(""); 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API Call
     setTimeout(() => {
       if (formData.username.length < 3) {
         setError("Username must be at least 3 characters.");
@@ -29,7 +30,6 @@ const Login = ({ onLogin }) => {
     }, 1500);
   };
 
-  // Animation Variants
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: { 
@@ -45,53 +45,79 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-black via-gray-900 to-black p-4">
+    <div className={`flex items-center justify-center min-h-screen p-4 transition-colors duration-500 ${
+      isDarkMode 
+        ? "bg-gradient-to-br from-black via-zinc-900 to-black" 
+        : "bg-gradient-to-br from-gray-100 via-white to-gray-200"
+    }`}>
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="bg-zinc-900/50 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl w-full max-w-md"
+        className={`backdrop-blur-xl p-8 rounded-[2.5rem] border shadow-2xl w-full max-w-md transition-all duration-500 ${
+          isDarkMode 
+            ? "bg-zinc-900/50 border-white/10 text-white" 
+            : "bg-white/80 border-gray-200 text-gray-900"
+        }`}
       >
         <motion.div variants={itemVariants} className="text-center mb-8">
-          <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-emerald-400">
+          <h2 className={`text-4xl font-black tracking-tight ${
+            isDarkMode 
+              ? "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-emerald-400" 
+              : "text-gray-900"
+          }`}>
             Welcome Back
           </h2>
-          <p className="text-gray-400 mt-2">Enter your credentials to access your account</p>
+          <p className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} mt-2`}>
+            Enter your credentials to access your account
+          </p>
         </motion.div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Username Input */}
           <motion.div variants={itemVariants} className="relative group">
-            <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-emerald-400 transition-colors" />
+            <FaUser className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
+              isDarkMode ? "text-gray-500 group-focus-within:text-emerald-400" : "text-gray-400 group-focus-within:text-purple-600"
+            }`} />
             <input
               name="username"
               type="text"
               placeholder="Username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full bg-black/40 text-white pl-10 pr-4 py-3 rounded-xl border border-white/10 outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+              className={`w-full pl-12 pr-4 py-3.5 rounded-2xl border outline-none transition-all ${
+                isDarkMode 
+                  ? "bg-black/40 text-white border-white/10 focus:border-emerald-500/50" 
+                  : "bg-gray-100 text-gray-900 border-gray-200 focus:border-purple-500/50"
+              }`}
               required
             />
           </motion.div>
 
           {/* Password Input */}
           <motion.div variants={itemVariants} className="relative group">
-            <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-emerald-400 transition-colors" />
+            <FaLock className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
+              isDarkMode ? "text-gray-500 group-focus-within:text-emerald-400" : "text-gray-400 group-focus-within:text-purple-600"
+            }`} />
             <input
               name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full bg-black/40 text-white pl-10 pr-12 py-3 rounded-xl border border-white/10 outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+              className={`w-full pl-12 pr-12 py-3.5 rounded-2xl border outline-none transition-all ${
+                isDarkMode 
+                  ? "bg-black/40 text-white border-white/10 focus:border-emerald-500/50" 
+                  : "bg-gray-100 text-gray-900 border-gray-200 focus:border-purple-500/50"
+              }`}
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-500 transition-colors"
             >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
             </button>
           </motion.div>
 
@@ -102,7 +128,7 @@ const Login = ({ onLogin }) => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="text-red-400 text-sm font-medium"
+                className="text-red-500 text-sm font-bold text-center"
               >
                 {error}
               </motion.p>
@@ -114,33 +140,40 @@ const Login = ({ onLogin }) => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             disabled={isLoading}
-            className={`w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all 
-              ${isLoading ? 'bg-gray-700 cursor-not-allowed' : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:shadow-emerald-500/20'}`}
+            className={`w-full py-4 rounded-2xl font-black uppercase tracking-widest text-white shadow-xl transition-all 
+              ${isLoading 
+                ? 'bg-gray-500 cursor-not-allowed' 
+                : (isDarkMode ? 'bg-gradient-to-r from-emerald-600 to-teal-600 shadow-emerald-900/20' : 'bg-purple-600 shadow-purple-200')
+              }`}
           >
             {isLoading ? "Signing in..." : "Sign In"}
           </motion.button>
         </form>
 
         {/* Divider */}
-        <div className="flex items-center my-6">
-          <div className="flex-1 h-px bg-white/10"></div>
-          <span className="px-3 text-gray-500 text-sm">OR</span>
-          <div className="flex-1 h-px bg-white/10"></div>
+        <div className="flex items-center my-8">
+          <div className={`flex-1 h-px ${isDarkMode ? "bg-white/10" : "bg-gray-200"}`}></div>
+          <span className="px-4 text-gray-400 text-xs font-bold tracking-widest">OR</span>
+          <div className={`flex-1 h-px ${isDarkMode ? "bg-white/10" : "bg-gray-200"}`}></div>
         </div>
 
         {/* Social Logins */}
         <div className="grid grid-cols-2 gap-4">
-          <button className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white py-2 rounded-xl border border-white/10 transition-colors">
+          <button className={`flex items-center justify-center gap-2 py-3 rounded-2xl border transition-all font-medium text-sm ${
+            isDarkMode ? "bg-white/5 border-white/10 hover:bg-white/10 text-white" : "bg-gray-50 border-gray-200 hover:bg-gray-100 text-gray-700"
+          }`}>
             <FaGoogle /> Google
           </button>
-          <button className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white py-2 rounded-xl border border-white/10 transition-colors">
+          <button className={`flex items-center justify-center gap-2 py-3 rounded-2xl border transition-all font-medium text-sm ${
+            isDarkMode ? "bg-white/5 border-white/10 hover:bg-white/10 text-white" : "bg-gray-50 border-gray-200 hover:bg-gray-100 text-gray-700"
+          }`}>
             <FaGithub /> GitHub
           </button>
         </div>
 
-        <p className="text-sm text-gray-400 text-center mt-8">
-          Don't have an account? 
-          <span className="text-emerald-400 cursor-pointer hover:underline ml-1">Sign Up</span>
+        <p className="text-sm text-center mt-10 font-medium">
+          <span className={isDarkMode ? "text-gray-400" : "text-gray-500"}>Don't have an account?</span>
+          <span className="text-purple-500 cursor-pointer hover:underline ml-1 font-bold">Sign Up</span>
         </p>
       </motion.div>
     </div>
